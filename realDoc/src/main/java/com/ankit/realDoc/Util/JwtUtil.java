@@ -1,11 +1,13 @@
 package com.ankit.realDoc.Util;
 
 import java.util.Date;
+import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.ankit.realDoc.entity.user;
@@ -47,28 +49,32 @@ public class JwtUtil {
     }
 
     public String extractEmail(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+        return extractClaim(token, Claims::getSubject);
+    }
+
+   public Boolean validateToken(String token, UserDetails userDetails) {
+        final String email = extractEmail(token);
+        return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    private Boolean isTokenExpired(String token) {
+        return extractClaim(token, Claims::getExpiration).before(new Date());
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.getBytes())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        
-        return claims.getSubject();
     }
-
-    public boolean validateToken(String token) {
-        try {
-            // Use the parserBuilder() method to validate the token
-            Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token);  // Will throw an exception if the token is invalid or expired
-
-            return true;
-        } catch (ExpiredJwtException | IllegalArgumentException e) {
-            return false; // Token is invalid or expired
-        }
-    }
-
 
 }

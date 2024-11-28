@@ -67,7 +67,7 @@ validateToken(String token): Validate JWT tokens (will implement JWT later). */
     }
 
     public Long validateToken(String token) {
-        if (jwtUtil.validateToken(token)) {
+        if (jwtUtil.validateToken(token, null)) {
             String email = jwtUtil.extractEmail(token);
             Optional<user> userOpt = userRepository.findUserByEmail(email);
             if (userOpt.isPresent()) {
