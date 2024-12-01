@@ -23,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<user> postMethodName(@RequestBody user User) {
-        System.out.println(User.toString());
+        System.out.println(">>>>>>>>>>>>"+User.toString());
         user registeredUser = authService.register(User);
         return ResponseEntity.ok(registeredUser);
     }
@@ -36,6 +36,7 @@ public class AuthController {
 
     @GetMapping("/validate")
     public ResponseEntity<Long> validateToken(@RequestParam String token) {
+        System.out.println("Validate API Clled");
         Long userId = authService.validateToken(token);
         return ResponseEntity.ok(userId);
     }

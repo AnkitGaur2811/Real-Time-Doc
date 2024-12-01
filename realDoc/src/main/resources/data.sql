@@ -1,5 +1,5 @@
 -- Insert roles
-INSERT INTO role (role_id, role_name) VALUES (1, 'Admin'), (2, 'Manager'), (3, 'Editor'), (4, 'Viewer')
+INSERT INTO role (role_id, role_name) VALUES (1, 'ROLE_ADMIN'), (2, 'ROLE_MANAGER'), (3, 'ROLE_EDITOR'), (4, 'ROLE_VIEWER')
 ON DUPLICATE KEY UPDATE role_name = VALUES(role_name);
 
 -- Insert permissions
