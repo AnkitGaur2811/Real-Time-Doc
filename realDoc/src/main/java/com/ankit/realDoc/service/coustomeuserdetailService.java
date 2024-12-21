@@ -37,6 +37,4 @@ public class coustomeuserdetailService implements UserDetailsService {
             authorities
     );
     }
-
-    
 }

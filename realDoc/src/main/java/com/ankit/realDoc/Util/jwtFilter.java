@@ -63,5 +63,6 @@ public class jwtFilter extends OncePerRequestFilter{
                 logger.error("Invalid JWT token: " + e.getMessage());
             }
         }
+        filterChain.doFilter(request, response); // Ensure the filter chain continues
     }
 }

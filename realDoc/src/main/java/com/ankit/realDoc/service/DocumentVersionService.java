@@ -27,7 +27,7 @@ deleteVersion(Long versionId): Delete a specific version. */
     @Autowired
     private UserService userService;
 
-    public documentVersion createVersion(Long docId, String content, Long editorId){
+    public documentVersion createVersion(Long docId, String content, Long editorId) {
         document doc = documentService.getDocumentById(docId);
         user editor = userService.getUserById(editorId);
 
@@ -39,7 +39,6 @@ deleteVersion(Long versionId): Delete a specific version. */
         docversion.setVersionNumber(getNextVersionNumberforDoc(docId));
 
         return DocumentVersionRepository.save(docversion);
-
     }
 
     public int getNextVersionNumberforDoc(Long documentId) {

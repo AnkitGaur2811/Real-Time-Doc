@@ -44,4 +44,16 @@ public class UserService {
     public user findUserByEmail(String email){
         return UserRepository.findUserByEmail(email).orElseThrow(()->new RuntimeException("user not found"));
     }
+
+    // Read users by role
+    public List<user> getUsersByRole(String role) {
+        return UserRepository.findByRole(role);
+    }
+
+    // Update user password
+    public void updateUserPassword(Long userId, String newPassword) {
+        user existingUser = getUserById(userId);
+        existingUser.setPassword(newPassword);
+        UserRepository.save(existingUser);
+    }
 }
