@@ -12,6 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 
 import com.ankit.realDoc.Util.jwtFilter;
 import com.ankit.realDoc.service.coustomeuserdetailService;
@@ -61,5 +63,13 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers("/static/**");
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        String hierarchy = "ROLE_ADMIN > ROLE_MANAGER \n ROLE_MANAGER > ROLE_EDITOR \n ROLE_EDITOR > ROLE_VIEWER";
+        roleHierarchy.setHierarchy(hierarchy);
+        return roleHierarchy;
     }
 }

@@ -2,6 +2,7 @@ package com.ankit.realDoc.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.ankit.realDoc.entity.permission;
 import com.ankit.realDoc.repository.permissionRepo;
@@ -15,6 +16,7 @@ getPermissionByName(String permissionName): Fetch a permission by its name. */
     @Autowired
     private permissionRepo PermissionRepository;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')||hasRole('ROLE_MANAGER')")
     public permission createPermission(permission Permission){
         return PermissionRepository.save(Permission);
     }

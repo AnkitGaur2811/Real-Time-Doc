@@ -62,4 +62,10 @@ deleteVersion(Long versionId): Delete a specific version. */
         }
         DocumentVersionRepository.deleteById(versionId);
     }
+
+    public int getLastVersionNumberbyDoc(Long documentId) {
+        document doc = documentService.getDocumentById(documentId);
+        List<documentVersion> versions = DocumentVersionRepository.findBydoc(doc);
+        return versions.isEmpty() ? 0 : versions.size();
+    }
 }
